@@ -424,77 +424,51 @@ window.Game = (function() {
         return stringText;
       }
 
+      var getText = function(){
+        this.ctx.rect(300, 50, width, 150);
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.shadowOffsetX = 10;
+        this.ctx.shadowOffsetY = 10;
+        this.ctx.fill();
+        this.ctx.font = '16px PT Mono';
+        this.ctx.fillStyle = 'black';
+        this.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+        this.ctx.textBaseline = 'hanging';
+        for (var i = 0; i < arrText.length; i++){
+        this.ctx.fillText(arrText[i], 310, 60 + i*20);
+        }
+
+        return this.ctx;
+      }
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           var text = 'Вы выиграли! Нажмите "пробел" чтобы начать игру';
           var width = 300;
-          this.ctx.rect(300, 50, width, 150);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.shadowOffsetX = 10;
-          this.ctx.shadowOffsetY = 10;
-          this.ctx.fill();
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillStyle = 'black';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-          this.ctx.textBaseline = 'hanging';
-          for (var i = 0; i < moveText(text, width).length; i++){
-          this.ctx.fillText(moveText(text, width)[i], 310, 60 + i*20);
-          }
+          var arrText = moveText(text, width);
+          getText();
           //console.log('you have won!');
           break;
         case Verdict.FAIL:
           var text = 'Вы проиграли! Нажмите "пробел" чтобы начать игру';
           var width = 300;
-          this.ctx.rect(300, 50, width, 150);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.shadowOffsetX = 10;
-          this.ctx.shadowOffsetY = 10;
-          this.ctx.fill();
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillStyle = 'black';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-          this.ctx.textBaseline = 'hanging';
-          for (var i = 0; i < moveText(text, width).length; i++){
-          this.ctx.fillText(moveText(text, width)[i], 310, 60 + i*20);
-          }
+          var arrText = moveText(text, width);
+          getText();
           //console.log('you have failed!');
           break;
         case Verdict.PAUSE:
           var text = 'Включена пауза! Нажмите "пробел" чтобы начать игру';
           var width = 300;
-          this.ctx.rect(300, 50, width, 150);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.shadowOffsetX = 10;
-          this.ctx.shadowOffsetY = 10;
-          this.ctx.fill();
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillStyle = 'black';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-          this.ctx.textBaseline = 'hanging';
-          for (var i = 0; i < moveText(text, width).length; i++){
-          this.ctx.fillText(moveText(text, width)[i], 310, 60 + i*20);
-          }
+          var arrText = moveText(text, width);
+          getText();
           //console.log('game is on pause!');
           break;
         case Verdict.INTRO:
           var text = 'Добро пожаловать в игру! Меня зовут Пендальф Синий. Я умею стрелять, летать и перемещаться. Нажмите "пробел" чтобы начать игру';
           var width = 300;
-          this.ctx.rect(300, 50, width, 150);
-          this.ctx.fillStyle = '#FFFFFF';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-          this.ctx.shadowOffsetX = 10;
-          this.ctx.shadowOffsetY = 10;
-          this.ctx.fill();
-          this.ctx.font = '16px PT Mono';
-          this.ctx.fillStyle = 'black';
-          this.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-          this.ctx.textBaseline = 'hanging';
-          for (var i = 0; i < moveText(text, width).length; i++){
-          this.ctx.fillText(moveText(text, width)[i], 310, 60 + i*20);
-          }
+          var arrText = moveText(text, width);
+          getText();
           //console.log('welcome to the game! Press Space to start');
           break;
       }
