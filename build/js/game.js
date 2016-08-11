@@ -395,18 +395,86 @@ window.Game = (function() {
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+
+      var arrText;
+      var text;
+      var width;
+
+      var drawText = function(ctx, w, at){
+        ctx.rect(300, 50, w, 150);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsetY = 10;
+        ctx.fill();
+        ctx.font = '16px PT Mono';
+        ctx.fillStyle = 'black';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+        ctx.textBaseline = 'hanging';
+
+        for (var i = 0; i < at.length; i++){
+        ctx.fillText(at[i], 310, 60 + i*20);
+        }
+      }
+
+      var returnArrString = function(text, width){
+
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.font = '16px PT Mono';
+
+
+        var splitText = text.split(' ');
+        var n = 0;
+        var txt = '';
+        var stringText = [];
+
+        for ( var i = 0; i < splitText.length; i++) {
+
+          if (ctx.measureText(splitText[i] + '   ').width < (width - ctx.measureText(txt).width)) {
+            txt +=  splitText[i] + ' ';
+          }
+
+          else{
+            stringText[n] = txt;
+            n++;
+            txt = splitText[i] + ' ';
+          }
+        }
+
+        stringText[n] = txt;
+
+        return stringText;
+      }
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          text = 'Вы выиграли! Нажмите "пробел" чтобы начать игру';
+          width = 200;
+          arrText = returnArrString(text, width);
+          drawText(this.ctx, width, arrText);
+          //console.log('you have won!');
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          text = 'Вы проиграли! Нажмите "пробел" чтобы начать игру';
+          width = 200;
+          arrText = returnArrString(text, width);
+          drawText(this.ctx, width, arrText);
+          //console.log('you have failed!');
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          text = 'Включена пауза! Нажмите "пробел" чтобы начать игру';
+          width = 200;
+          arrText = returnArrString(text, width);
+          drawText(this.ctx, width, arrText);
+          //console.log('game is on pause!');
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          text = 'Добро пожаловать в игру! Меня зовут Пендальф Синий. Я умею стрелять, летать и перемещаться. Нажмите "пробел" чтобы начать игру';
+          width = 200;
+          arrText = returnArrString(text, width);
+          drawText(this.ctx, width, arrText);
+          //console.log('welcome to the game! Press Space to start');
           break;
       }
     },
