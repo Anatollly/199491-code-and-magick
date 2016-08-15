@@ -399,7 +399,7 @@ window.Game = (function() {
       var width;
       var text;
 
-      var drawText = function(ctx, w, t){
+      var drawText = function(ctx, w, t) {
 
         ctx.rect(300, 50, w, 150);
         ctx.fillStyle = '#FFFFFF';
@@ -420,10 +420,8 @@ window.Game = (function() {
         for ( var i = 0; i < splitText.length; i++) {
 
           if (ctx.measureText(splitText[i] + '   ').width < (w - ctx.measureText(txt).width)) {
-            txt +=  splitText[i] + ' ';
-          }
-
-          else{
+            txt += splitText[i] + ' ';
+          } else{
             stringText[n] = txt;
             n++;
             txt = splitText[i] + ' ';
@@ -432,8 +430,8 @@ window.Game = (function() {
 
         stringText[n] = txt;
 
-        for (var i = 0; i < stringText.length; i++){
-        ctx.fillText(stringText[i], 310, 60 + i*20);
+        for (i = 0; i < stringText.length; i++) {
+          ctx.fillText(stringText[i], 310, 60 + i * 20);
         }
       };
 
