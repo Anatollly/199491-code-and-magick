@@ -396,7 +396,7 @@ window.Game = (function() {
      */
     _drawPauseScreen: function() {
 
-      var width = 100;
+      var width;
       var text;
 
       var drawText = function(ctx, w, t) {
@@ -423,6 +423,7 @@ window.Game = (function() {
 
         h = stringText.length * 20 + 20;
 
+        ctx.clearRect(300, 50, 500, 500);
         ctx.rect(300, 50, w, h);
         ctx.fillStyle = '#FFFFFF';
         ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
@@ -437,27 +438,33 @@ window.Game = (function() {
         for (i = 0; i < stringText.length; i++) {
           ctx.fillText(stringText[i], 310, 60 + i * 20);
         }
-
       };
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
+          width = 150;
           text = 'Вы выиграли! Нажмите "пробел" чтобы начать игру';
           drawText(this.ctx, width, text);
           //console.log('you have won!');
           break;
         case Verdict.FAIL:
+          width = 300;
           text = 'Вы проиграли! Нажмите "пробел" чтобы начать игру';
+          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('you have failed!');
           break;
         case Verdict.PAUSE:
+          width = 250;
           text = 'Включена пауза! Нажмите "пробел" чтобы начать игру';
+          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('game is on pause!');
           break;
         case Verdict.INTRO:
+          width = 200;
           text = 'Добро пожаловать в игру! Меня зовут Пендальф Синий. Я умею стрелять, летать и перемещаться. Нажмите "пробел" чтобы начать игру';
+          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('welcome to the game! Press Space to start');
           break;
