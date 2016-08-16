@@ -423,13 +423,10 @@ window.Game = (function() {
 
         h = stringText.length * 20 + 20;
 
-        ctx.clearRect(300, 50, 500, 500);
-        ctx.rect(300, 50, w, h);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(310, 60, w, h);
         ctx.fillStyle = '#FFFFFF';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-        ctx.shadowOffsetX = 10;
-        ctx.shadowOffsetY = 10;
-        ctx.fill();
+        ctx.fillRect(300, 50, w, h);
         ctx.font = '16px PT Mono';
         ctx.fillStyle = 'black';
         ctx.shadowColor = 'rgba(0, 0, 0, 0)';
@@ -450,21 +447,18 @@ window.Game = (function() {
         case Verdict.FAIL:
           width = 300;
           text = 'Вы проиграли! Нажмите "пробел" чтобы начать игру';
-          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('you have failed!');
           break;
         case Verdict.PAUSE:
           width = 250;
           text = 'Включена пауза! Нажмите "пробел" чтобы начать игру';
-          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('game is on pause!');
           break;
         case Verdict.INTRO:
-          width = 200;
+          width = 300;
           text = 'Добро пожаловать в игру! Меня зовут Пендальф Синий. Я умею стрелять, летать и перемещаться. Нажмите "пробел" чтобы начать игру';
-          this.ctx.clearRect(300, 50, 500, 500);
           drawText(this.ctx, width, text);
           //console.log('welcome to the game! Press Space to start');
           break;
