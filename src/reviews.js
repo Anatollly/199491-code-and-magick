@@ -12,9 +12,6 @@ var doJsonp = function(urlJsonp, callbackName, callback) {
   var scriptElement = document.createElement('script');
   scriptElement.src = urlJsonp + '?callback=' + callbackName;
   document.body.appendChild(scriptElement);
-
-  var name = +(callbackName);
-  console.log(name);
 };
 
 doJsonp('http://localhost:1506/api/reviews', 'jsonCallback', jsonCallback);
