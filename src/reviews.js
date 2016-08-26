@@ -10,7 +10,7 @@ window.__jsonCallback = function(data) {
 var funcCallback = window.__jsonCallback;
 
 var doJsonp = function(urlJsonp, callback) {
-  callback();
+  window.callback = callback;
   var scriptElement = document.createElement('script');
   scriptElement.src = urlJsonp;
   document.body.appendChild(scriptElement);
