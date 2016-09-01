@@ -15,9 +15,7 @@ var elem = document.querySelector('.reviews-filter');
 
 var addReviews = function(data) {
   reviews = data;
-  console.log(reviews);
   reviews.forEach(function(review) {
-    console.dir(review);
     getReviewElement(review, reviewsContainer);
   });
   elem.classList.add('invisible');
@@ -50,7 +48,6 @@ var getReviewElement = function(review, container) {
 
   img.onload = function() {
     reviewImage.src = review.author.picture;
-    console.log(reviewImage.src);
     reviewImage.title = reviewImage.alt = review.author.name;
     clearTimeout(imgLoadTimeout);
   };
