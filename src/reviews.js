@@ -47,9 +47,6 @@ var getReviewElement = function(review, container) {
   var reviewImage = reviewElement.querySelector('.review-author');
 
   var img = new Image(IMG_AUTHOR_HEIGHT, IMG_AUTHOR_WIDTH);
-  img.src = review.author.picture;
-  console.log(img.src);
-
 
   img.onload = function() {
     reviewImage.src = review.author.picture;
@@ -61,6 +58,8 @@ var getReviewElement = function(review, container) {
   img.onerror = function() {
     reviewElement.classList.add('review-load-failure');
   };
+
+  img.src = review.author.picture;
 
   var imgLoadTimeout = setTimeout(function() {
     img.src = '';
