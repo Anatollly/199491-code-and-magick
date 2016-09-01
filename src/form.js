@@ -1,5 +1,7 @@
 'use strict';
 
+var browserCookies = require('browser-cookies');
+
 window.form = (function() {
   var formContainer = document.querySelector('.overlay-container');
   var formCloseButton = document.querySelector('.review-form-close');
@@ -50,17 +52,56 @@ window.form = (function() {
   name.oninput = function() {
     validateForm();
   };
-  //nameField.addEventListener('input', validateForm);
+
   text.oninput = function() {
     validateForm();
   };
-  //feedbackField.addEventListener('input', validateForm);
+
 
   for (var i = 0; i < rating.length; i++) {
     rating[i].onclick = function() {
       validateForm();
     };
   }
+
+  //cookies
+
+  var markCookie = browserCookies.get('review-mark');
+  var nameCookie = browserCookies.get('review-name');
+
+  rating.value = markCookie;
+  name.value = nameCookie;
+
+  var BIRTHDAY_HOPPER = new Date(1906, 11, 9);
+
+  var getExpiresDate = function(birthday) {
+
+    var nowDate = new Date();
+    nowDate.setHours(0, 0, 0, 0);
+    var year = nowDate.getFullYear();
+    var birthThisYear = birthday.setFullYear(year);
+    var birthLastYear = birthday.setFullYear(year - 1);
+    var timeThisYear = (nowDate - birthThisYear);
+    var timeLastYear = (nowDate - birthLastYear);
+
+    if (nowDate > birthThisYear) {
+      var time = timeThisYear;
+    }else {
+      time = timeLastYear;
+    }
+
+    var cookieTimeMsec = Date.now() + time;
+    var cookieDate = new Date(cookieTimeMsec);
+
+    return cookieDate;
+  };
+
+  reviewForm.onsubmit = function() {
+    browserCookies.set('review-mark', rating.value, {expires: getExpiresDate(BIRTHDAY_HOPPER)});
+    browserCookies.set('review-name', name.value, {expires: getExpiresDate(BIRTHDAY_HOPPER)});
+  };
+
+
 
   var form = {
     onClose: null,
