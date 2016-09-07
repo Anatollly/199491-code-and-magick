@@ -1,8 +1,6 @@
 'use strict';
 
-var browserCookies = require('browser-cookies');
-
-window.form = (function() {
+define(['browser-cookies'], function(browserCookies) {
   var formContainer = document.querySelector('.overlay-container');
   var formCloseButton = document.querySelector('.review-form-close');
 
@@ -123,11 +121,9 @@ window.form = (function() {
     }
   };
 
-
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     form.close();
   };
-
   return form;
-})();
+});
