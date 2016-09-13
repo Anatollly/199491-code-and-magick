@@ -8,11 +8,16 @@ define(['browser-cookies'], function(browserCookies) {
   var rating = reviewForm.elements['review-mark'];
   var name = reviewForm.elements['review-name'];
   var text = reviewForm.elements['review-text'];
-
   var button = document.querySelector('.review-submit');
   var fieldLinks = document.querySelector('.review-fields');
   var linkName = document.querySelector('.review-fields-name');
   var linkText = document.querySelector('.review-fields-text');
+
+  var markCookie = browserCookies.get('review-mark');
+  var nameCookie = browserCookies.get('review-name');
+
+  rating.value = markCookie;
+  name.value = nameCookie;
 
   var LOW_RATING = 3;
 
@@ -63,12 +68,6 @@ define(['browser-cookies'], function(browserCookies) {
   }
 
   //cookies
-
-  var markCookie = browserCookies.get('review-mark');
-  var nameCookie = browserCookies.get('review-name');
-
-  rating.value = markCookie;
-  name.value = nameCookie;
 
   var BIRTHDAY_HOPPER = new Date(1906, 11, 9);
 
@@ -121,9 +120,11 @@ define(['browser-cookies'], function(browserCookies) {
     }
   };
 
+
   formCloseButton.onclick = function(evt) {
     evt.preventDefault();
     form.close();
   };
+
   return form;
 });
