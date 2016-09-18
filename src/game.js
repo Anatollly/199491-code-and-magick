@@ -258,9 +258,62 @@ define(function() {
     this._pauseListener = this._pauseListener.bind(this);
 
     this.setDeactivated(false);
+    var self = this;
+
+    //Задание 7-2: эффект параллакса и остановка игры, если ее не видно.
+
+    var THROTTLE_TIMEOUT = 100;
+    this.headerClouds = document.querySelector('.header-clouds');
+    this.demoGame = document.querySelector('.demo');
+
+    var lastScrollTop = 0;
+    var cloudsPositionX = 50;
+    var lastCall = 0;
+
+
+    this.moveHeaderClouds = function() {
+      var currentScrollTop = window.pageYOffset;
+      if (lastScrollTop > currentScrollTop) {
+        cloudsPositionX++;
+      }else {
+        cloudsPositionX--;
+      }
+      lastScrollTop = currentScrollTop;
+      this.headerClouds.style.backgroundPositionX = cloudsPositionX + '%';
+    };
+
+    var throttleTimeout = function(callback, timeout) {
+      return function() {
+        if (Date.now() - lastCall >= timeout) {
+          callback();
+          lastCall = Date.now();
+        }
+      };
+    };
+
+    this.scrollOptimization = throttleTimeout(function() {
+      if (self.invisibleContainer(self.headerClouds)) {
+        window.addEventListener('scroll', self.moveHeaderClouds());
+      }else {
+        window.removeEventListener('scroll', self.moveHeaderClouds());
+      }
+      if (!self.invisibleContainer(self.demoGame)) {
+        self.setGameStatus(Verdict.PAUSE);
+      }
+    }, THROTTLE_TIMEOUT);
   };
 
   Game.prototype = {
+
+    invisibleContainer: function(gameContainer) {
+      if (gameContainer.getBoundingClientRect().bottom >= 0) {
+        return true;
+      }else {
+        return false;
+      }
+    },
+
+
     /**
      * Текущий уровень игры.
      * @type {Level}
@@ -739,6 +792,7 @@ define(function() {
     _initializeGameListeners: function() {
       window.addEventListener('keydown', this._onKeyDown);
       window.addEventListener('keyup', this._onKeyUp);
+      window.addEventListener('scroll', this.scrollOptimization);
     },
 
     /** @private */
@@ -751,4 +805,5 @@ define(function() {
   Game.Verdict = Verdict;
 
   return Game;
+
 });
