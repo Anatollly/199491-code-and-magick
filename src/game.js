@@ -258,7 +258,6 @@ define(function() {
     this._pauseListener = this._pauseListener.bind(this);
 
     this.setDeactivated(false);
-    var self = this;
 
     //Задание 7-2: эффект параллакса и остановка игры, если ее не видно.
 
@@ -269,6 +268,7 @@ define(function() {
     var lastScrollTop = 0;
     var cloudsPositionX = 50;
     var lastCall = 0;
+    var self = this;
 
 
     this.moveHeaderClouds = function() {
@@ -282,7 +282,7 @@ define(function() {
       this.headerClouds.style.backgroundPositionX = cloudsPositionX + '%';
     };
 
-    var throttleTimeout = function(callback, timeout) {
+    var throttle = function(callback, timeout) {
       return function() {
         if (Date.now() - lastCall >= timeout) {
           callback();
@@ -291,13 +291,11 @@ define(function() {
       };
     };
 
-    this.scrollOptimization = throttleTimeout(function() {
-      if (self.invisibleContainer(self.headerClouds)) {
+    this.optimizedScroll = throttle(function() {
+      if (self.isVisibleContainer(self.headerClouds)) {
         window.addEventListener('scroll', self.moveHeaderClouds());
-      }else {
-        window.removeEventListener('scroll', self.moveHeaderClouds());
       }
-      if (!self.invisibleContainer(self.demoGame)) {
+      if (!self.isVisibleContainer(self.demoGame)) {
         self.setGameStatus(Verdict.PAUSE);
       }
     }, THROTTLE_TIMEOUT);
@@ -305,8 +303,8 @@ define(function() {
 
   Game.prototype = {
 
-    invisibleContainer: function(gameContainer) {
-      if (gameContainer.getBoundingClientRect().bottom >= 0) {
+    isVisibleContainer: function(container) {
+      if (container.getBoundingClientRect().bottom >= 0) {
         return true;
       }else {
         return false;
@@ -792,7 +790,7 @@ define(function() {
     _initializeGameListeners: function() {
       window.addEventListener('keydown', this._onKeyDown);
       window.addEventListener('keyup', this._onKeyUp);
-      window.addEventListener('scroll', this.scrollOptimization);
+      window.addEventListener('scroll', this.optimizedScroll);
     },
 
     /** @private */
