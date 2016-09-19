@@ -258,9 +258,60 @@ define(function() {
     this._pauseListener = this._pauseListener.bind(this);
 
     this.setDeactivated(false);
+
+    //Задание 7-2: эффект параллакса и остановка игры, если ее не видно.
+
+    var THROTTLE_TIMEOUT = 100;
+    this.headerClouds = document.querySelector('.header-clouds');
+    this.demoGame = document.querySelector('.demo');
+    this.paralax = true;
+
+    var lastScrollTop = 0;
+    var cloudsPositionX = 50;
+    var lastCall = 0;
+    var self = this;
+
+
+    this.moveHeaderClouds = function() {
+      var currentScrollTop = window.pageYOffset;
+      if (lastScrollTop > currentScrollTop) {
+        cloudsPositionX++;
+      }else {
+        cloudsPositionX--;
+      }
+      lastScrollTop = currentScrollTop;
+      this.headerClouds.style.backgroundPositionX = cloudsPositionX + '%';
+    };
+
+    this.optimizedScroll = function() {
+      if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+        if (!self.isVisibleContainer(self.headerClouds)) {
+          self.paralax = false;
+        }else{
+          self.paralax = true;
+        }
+        if (!self.isVisibleContainer(self.demoGame)) {
+          self.setGameStatus(Verdict.PAUSE);
+        }
+        lastCall = Date.now();
+      }
+      if (self.paralax) {
+        self.moveHeaderClouds();
+      }
+    };
   };
 
   Game.prototype = {
+
+    isVisibleContainer: function(container) {
+      if (container.getBoundingClientRect().bottom >= 0) {
+        return true;
+      }else {
+        return false;
+      }
+    },
+
+
     /**
      * Текущий уровень игры.
      * @type {Level}
@@ -739,6 +790,7 @@ define(function() {
     _initializeGameListeners: function() {
       window.addEventListener('keydown', this._onKeyDown);
       window.addEventListener('keyup', this._onKeyUp);
+      window.addEventListener('scroll', this.optimizedScroll);
     },
 
     /** @private */
@@ -751,4 +803,5 @@ define(function() {
   Game.Verdict = Verdict;
 
   return Game;
+
 });
