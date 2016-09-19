@@ -4,7 +4,7 @@ define(['./load', './review'], function(load, Review) {
 
   var PAGE_SIZE = 3;
   var pageNumber = 0;
-  var activeFilter = localStorage.getItem('filter');
+  var activeFilter = localStorage.getItem('filter') || 'reviews-all';
   document.querySelector('#' + activeFilter).checked = true;
 
   var reviewsFilter = document.querySelector('.reviews-filter');
