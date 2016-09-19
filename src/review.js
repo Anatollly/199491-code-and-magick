@@ -11,7 +11,33 @@ define(function() {
 
   var templateContainer = 'content' in templateElement ? templateElement.content : templateElement;
 
-  var getReviewElement = function(review) {
+  var Review = function(data) {
+    this.data = data;
+    this.element = this.getReviewElement(this.data);
+    this.answerYes = this.element.querySelector('.review-quiz-answer-yes');
+    this.answerNo = this.element.querySelector('.review-quiz-answer-no');
+    this.clickYes = this.clickYes.bind(this);
+    this.clickNo = this.clickNo.bind(this);
+    this.answerYes.addEventListener('click', this.clickYes);
+    this.answerNo.addEventListener('click', this.clickNo);
+  };
+
+  Review.prototype.clickYes = function() {
+    this.answerYes.classList.add('review-quiz-answer-active');
+    this.answerNo.classList.remove('review-quiz-answer-active');
+  };
+
+  Review.prototype.clickNo = function() {
+    this.answerYes.classList.remove('review-quiz-answer-active');
+    this.answerNo.classList.add('review-quiz-answer-active');
+  };
+
+  Review.prototype.remove = function() {
+    this.answerYes.onclick = null;
+    this.answerNo.onclick = null;
+  };
+
+  Review.prototype.getReviewElement = function(review) {
     var reviewElement = templateContainer.querySelector('.review').cloneNode(true);
     reviewElement.querySelector('.review-rating').style.width = (ICON_STAR_WIDTH * review.rating) + 'px';
     reviewElement.querySelector('.review-text').textContent = review.description;
@@ -37,35 +63,6 @@ define(function() {
     }, IMG_LOAD_TIMEOUT);
 
     return reviewElement;
-  };
-
-  var Review = function(data) {
-    this.data = data;
-    this.element = getReviewElement(data);
-    this.answerYes = this.element.querySelector('.review-quiz-answer-yes');
-    this.answerNo = this.element.querySelector('.review-quiz-answer-no');
-    var self = this;
-    this.answerYes.onclick = function() {
-      self.clickYes();
-    };
-    this.answerNo.onclick = function() {
-      self.clickNo();
-    };
-  };
-
-  Review.prototype.clickYes = function() {
-    this.answerYes.classList.add('review-quiz-answer-active');
-    this.answerNo.classList.remove('review-quiz-answer-active');
-  };
-
-  Review.prototype.clickNo = function() {
-    this.answerYes.classList.remove('review-quiz-answer-active');
-    this.answerNo.classList.add('review-quiz-answer-active');
-  };
-
-  Review.prototype.remove = function() {
-    this.answerYes.onclick = null;
-    this.answerNo.onclick = null;
   };
 
   return Review;

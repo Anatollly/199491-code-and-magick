@@ -261,47 +261,32 @@ define(function() {
 
     //Задание 7-2: эффект параллакса и остановка игры, если ее не видно.
 
-    var THROTTLE_TIMEOUT = 100;
+    this.THROTTLE_TIMEOUT = 100;
     this.headerClouds = document.querySelector('.header-clouds');
     this.demoGame = document.querySelector('.demo');
     this.paralax = true;
+    this.lastScrollTop = 0;
+    this.cloudsPositionX = 50;
+    this.lastCall = 0;
 
-    var lastScrollTop = 0;
-    var cloudsPositionX = 50;
-    var lastCall = 0;
-    var self = this;
+    this.moveHeaderClouds = this.moveHeaderClouds.bind(this);
+    this.isVisibleContainer = this.isVisibleContainer.bind(this);
+    this.optimizedScroll = this.optimizedScroll.bind(this);
 
-
-    this.moveHeaderClouds = function() {
-      var currentScrollTop = window.pageYOffset;
-      if (lastScrollTop > currentScrollTop) {
-        cloudsPositionX++;
-      }else {
-        cloudsPositionX--;
-      }
-      lastScrollTop = currentScrollTop;
-      this.headerClouds.style.backgroundPositionX = cloudsPositionX + '%';
-    };
-
-    this.optimizedScroll = function() {
-      if (Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        if (!self.isVisibleContainer(self.headerClouds)) {
-          self.paralax = false;
-        }else{
-          self.paralax = true;
-        }
-        if (!self.isVisibleContainer(self.demoGame)) {
-          self.setGameStatus(Verdict.PAUSE);
-        }
-        lastCall = Date.now();
-      }
-      if (self.paralax) {
-        self.moveHeaderClouds();
-      }
-    };
   };
 
   Game.prototype = {
+
+    moveHeaderClouds: function() {
+      var currentScrollTop = window.pageYOffset;
+      if (this.lastScrollTop > currentScrollTop) {
+        this.cloudsPositionX++;
+      }else {
+        this.cloudsPositionX--;
+      }
+      this.lastScrollTop = currentScrollTop;
+      this.headerClouds.style.backgroundPositionX = this.cloudsPositionX + '%';
+    },
 
     isVisibleContainer: function(container) {
       if (container.getBoundingClientRect().bottom >= 0) {
@@ -311,6 +296,22 @@ define(function() {
       }
     },
 
+    optimizedScroll: function() {
+      if (Date.now() - this.lastCall >= this.THROTTLE_TIMEOUT) {
+        if (!this.isVisibleContainer(this.headerClouds)) {
+          this.paralax = false;
+        }else{
+          this.paralax = true;
+        }
+        if (!this.isVisibleContainer(this.demoGame)) {
+          this.setGameStatus(Verdict.PAUSE);
+        }
+        this.lastCall = Date.now();
+      }
+      if (this.paralax) {
+        this.moveHeaderClouds();
+      }
+    },
 
     /**
      * Текущий уровень игры.

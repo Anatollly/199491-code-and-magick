@@ -13,22 +13,16 @@ define(function() {
     this.previewNumberTotal = this.overlayGallery.querySelector('.preview-number-total');
     this.activePicture = 0;
     this.previewNumberTotal.textContent = this.pictures.length;
+    this.hide = this.hide.bind(this);
+    this.prev = this.prev.bind(this);
+    this.next = this.next.bind(this);
   };
 
   Gallery.prototype.show = function(index) {
-    var self = this;
 
-    this.galleryClose.onclick = function() {
-      self.hide();
-    };
-
-    this.controlLeft.onclick = function() {
-      self.prev();
-    };
-
-    this.controlRight.onclick = function() {
-      self.next();
-    };
+    this.galleryClose.addEventListener('click', this.hide);
+    this.controlLeft.addEventListener('click', this.prev);
+    this.controlRight.addEventListener('click', this.next);
 
     this.setActivePicture(index);
 
