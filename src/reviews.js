@@ -4,7 +4,8 @@ define(['./load', './review'], function(load, Review) {
 
   var PAGE_SIZE = 3;
   var pageNumber = 0;
-  var activeFilter = 'reviews-all';
+  var activeFilter = localStorage.getItem('filter');
+  document.querySelector('#' + activeFilter).checked = true;
 
   var reviewsFilter = document.querySelector('.reviews-filter');
   var reviewsContainer = document.querySelector('.reviews-list');
@@ -33,6 +34,7 @@ define(['./load', './review'], function(load, Review) {
     activeFilter = filterID;
     pageNumber = 0;
     loadReviews(pageNumber, filterID);
+    localStorage.setItem('filter', activeFilter);
   };
 
   reviewsMore.addEventListener('click', function() {
@@ -43,4 +45,5 @@ define(['./load', './review'], function(load, Review) {
   reviewsFilter.addEventListener('change', function(evt) {
     changeFilters(evt.target.id);
   });
+
 });
