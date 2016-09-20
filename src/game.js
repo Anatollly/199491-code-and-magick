@@ -289,11 +289,7 @@ define(function() {
     },
 
     isVisibleContainer: function(container) {
-      if (container.getBoundingClientRect().bottom >= 0) {
-        return true;
-      }else {
-        return false;
-      }
+      return container.getBoundingClientRect().bottom >= 0;
     },
 
     optimizedScroll: function() {
@@ -494,25 +490,21 @@ define(function() {
           width = 150;
           text = 'Вы выиграли! Нажмите "пробел" чтобы начать игру';
           drawText(this.ctx, width, text);
-          //console.log('you have won!');
           break;
         case Verdict.FAIL:
           width = 300;
           text = 'Вы проиграли! Нажмите "пробел" чтобы начать игру';
           drawText(this.ctx, width, text);
-          //console.log('you have failed!');
           break;
         case Verdict.PAUSE:
           width = 250;
           text = 'Включена пауза! Нажмите "пробел" чтобы начать игру';
           drawText(this.ctx, width, text);
-          //console.log('game is on pause!');
           break;
         case Verdict.INTRO:
           width = 300;
           text = 'Добро пожаловать в игру! Меня зовут Пендальф Синий. Я умею стрелять, летать и перемещаться. Нажмите "пробел" чтобы начать игру';
           drawText(this.ctx, width, text);
-          //console.log('welcome to the game! Press Space to start');
           break;
       }
     },
