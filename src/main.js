@@ -1,6 +1,19 @@
 'use strict';
 
+// Array.forEach = function(callback, thisArg) {
+//   if(typeof (callback) !== 'function') {
+//     throw new TypeError(callback + ' is not a function!');
+//   }
+//   var len = this.length;
+//   for(var i = 0; i < len; i++) {
+//     callback.call(thisArg, this[i], i, this);
+//   }
+// };
+
+
 define(['./form', './game', './gallery', './reviews'], function(form, Game, Gallery) {
+
+
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(Game.Verdict.INTRO);
@@ -26,12 +39,18 @@ define(['./form', './game', './gallery', './reviews'], function(form, Game, Gall
 
   var links = [];
   for (var i = 0; i < photoGallery.length; i++) {
-    links[i] = photoGallery[i].currentSrc;
+    links[i] = photoGallery[i].src;
   }
 
   var gallery = new Gallery(links);
 
-  photoLinks.forEach(function(photo, index) {
+  var each = function(arr, callback) {
+    for (i = 0; i < arr.length; i++) {
+      callback(arr[i], i);
+    }
+  };
+
+  each(photoLinks, function(photo, index) {
     photo.onclick = function() {
       gallery.show(index);
     };

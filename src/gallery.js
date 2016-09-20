@@ -30,6 +30,9 @@ define(function() {
   };
 
   Gallery.prototype.hide = function() {
+    this.galleryClose.removeEventListener('click', this.hide);
+    this.controlLeft.removeEventListener('click', this.prev);
+    this.controlRight.removeEventListener('click', this.next);
     this.overlayGallery.classList.add('invisible');
   };
 
