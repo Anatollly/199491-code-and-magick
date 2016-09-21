@@ -20,7 +20,7 @@ define(['./load', './review'], function(load, Review) {
   };
 
   var loadReviews = function(currentPageNumber, filter) {
-    load('http://localhost:1506/api/reviews', {
+    load('/api/reviews', {
       from: currentPageNumber * PAGE_SIZE,
       to: PAGE_SIZE + currentPageNumber * PAGE_SIZE,
       filter: filter
