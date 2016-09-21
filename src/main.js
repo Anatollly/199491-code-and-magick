@@ -1,18 +1,6 @@
 'use strict';
 
-// Array.forEach = function(callback, thisArg) {
-//   if(typeof (callback) !== 'function') {
-//     throw new TypeError(callback + ' is not a function!');
-//   }
-//   var len = this.length;
-//   for(var i = 0; i < len; i++) {
-//     callback.call(thisArg, this[i], i, this);
-//   }
-// };
-
-
 define(['./form', './game', './gallery', './reviews'], function(form, Game, Gallery) {
-
 
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
